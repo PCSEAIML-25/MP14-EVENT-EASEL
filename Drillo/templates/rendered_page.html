@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <!-- Basic -->
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+        <!-- Mobile Metas -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+        <!-- Site Metas -->
+        <title>{{submission.name}}</title>
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <meta name="author" content="">
+    
+        <!-- Site Icons -->
+        <link rel="shortcut icon" href="https://innogeeksbucket.s3.ap-south-1.amazonaws.com/img/innologobright.png" type="image/x-icon">
+        <link rel="apple-touch-icon" href="https://innogeeksbucket.s3.ap-south-1.amazonaws.com/img/innologobright.png">
+    
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{{ static('css/bootstrap.min.css') }}">
+      <!-- Site CSS -->
+        <link rel="stylesheet" href="{{ static('css/style.css') }}">
+      <!-- Responsive CSS -->
+        <link rel="stylesheet" href="{{ static('css/responsive.css') }}">
+      <!-- Custom CSS -->
+        <link rel="stylesheet" href="{{ static('css/custom.css') }}">
+
+       <style>
+            html{
+                scroll-behavior: smooth;
+            }
+            @media screen and (max-width: 800px) {
+                .aboutImage{
+                    display: none;
+                }
+            }
+            @media screen and (min-width: 800px) {
+                .aboutText{
+                    margin-top: 10%;
+                }
+            }
+            @media screen and (max-width: 500px) {
+                .importantInfo{
+                    flex-direction: column;
+                }
+            }
+
+        </style>
+    
+    
+    </head>
+    
+    <body>
+        <!-- Start Main Top -->
+        <header class="main-header">
+            <!-- Start Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
+                <div class="container">
+                    <!-- Start Header Navigation -->
+                    <div class="navbar-header">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                        <a class="navbar-brand" href="https://www.innogeeks.in"><img src="https://innogeeksbucket.s3.ap-south-1.amazonaws.com/img/innologobright.png" class="logo" alt="" style="width: 250px;height: 80px;"></a>
+                    </div>
+                    <!-- End Header Navigation -->
+    
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="navbar-menu">
+                        <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
+                          {% if (not registered) %}
+                          <li class="nav-item">
+                            <a class="nav-link" href="/event/register/{{submission.name}}">Register</a>
+                          </li>
+                          {% endif %}
+                          {% if user.username %}
+                          <li class="nav-item"><a class="nav-link" href="/user/dashboard">User {{user.username}}</a></li>
+                          <li class="nav-item"><a class="nav-link" href="/user/logout">Logout</a></li>
+                          {% else %}
+                          <li class="nav-item"><a class="nav-link" href="/user/login">Login</a></li>
+                          {% endif %}
+                        </ul>
+                      </div> 
+                </div>
+            </nav>
+            <!-- End Navigation -->
+        </header>
+        <!-- End Main Top -->
+    
+        <!-- Start Top Search -->
+        <div class="top-search">
+            <div class="container">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Search">
+                    <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+                </div>
+            </div>
+        </div>
+        <!-- End Top Search -->
+   
+        <!-- Start Slider -->
+        <div id="slides-shop" class="cover-slides">
+            <ul class="slides-container">
+                {% for i in carousel %}
+                <li class="text-center">
+                    <img src={{i}} alt="">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h1 class="m-b-20"><strong>{{submission.name}} <br> by Innogeeks</strong></h1>
+                                <p class="m-b-40">{{submission.shortDesc}}</p>
+                                {% if registered %}
+                                <p>
+                                    <p class="btn hvr-hover">Already Registered</p>
+                                  {% else %}
+                                  <a class="btn hvr-hover" href="/event/register/{{submission.name}}"
+                                    >Register Now</a
+                                  >
+                                  </p>
+                                  {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="slides-navigation">
+                <a href="#" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                <a href="#" class="prev"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+            </div>
+        </div>
+        <!-- End Slider -->
+    
+        <!-- Start Categories  -->
+        <div class="categories-shop" id="about">
+            <div class="container">
+                <center><h1 style="margin-bottom: 2%;"><strong>About {{submission.name}}</strong></h1></center> 
+                <div style="display: flex;">
+                    <p class="aboutText" style="overflow-wrap: break-word; word-break: break-word; text-align: justify; margin-right: 5%;">{{submission.message}}</p>
+                    <img class="aboutImage" src={{aboutImage}} alt="">
+                </div>
+            </div>
+        </div>
+        <!-- End Categories -->
+        
+
+        {% if sponsors %}
+        <div class="box-add-products">
+            <div class="container">
+                <center><h1 style="margin-bottom: 5%;"><strong>OUR SPONSORS</strong></h1></center> 
+                <center><div class="row" style="display: flex; justify-content: center; align-items: center;">
+                    {% for i in sponsors %}
+                        <div class="col-lg-4 col-md-4 col-sm-6">
+                                <img class="img-fluid" src={{i}} alt="sponsors" style="width: 50%; margin: 5%;"/>
+                        </div>
+                    {% endfor %}
+                </div></center>
+            </div>
+        </div>
+        {% endif %}
+    
+    
+        <!-- Start Blog  -->
+        <div class="latest-blog">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="title-all text-center">
+                            <h1>Important Information</h1>
+                            <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                                <div style="background-color: rgb(200, 201, 202); border-radius: 10px; padding: 3%; margin: 2%; width: 30%; height: 10%;"><center><h3>Registrations start</h3><br>{{submission.start_date}}</center></div>
+                                <div style="background-color: rgb(200, 201, 202); border-radius: 10px; padding: 3%; margin: 2%; width: 30%; height: 10%;"><center><h3>Registrations ends</h3><br>{{submission.end_date}}</center></div>
+                                <div style="background-color: rgb(200, 201, 202); border-radius: 10px; padding: 3%; margin: 2%; width: 30%; height: 10%;"><center><h3>Total Number of Registrations</h3><br>{{registration_count}}</center></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+            </div>
+        </div>
+        <!-- End Blog  -->
+    
+        <!-- Start copyright  -->
+        <div class="footer-copyright">
+            <p class="footer-company">All Rights Reserved. &copy; 2023 Made with ❤️ by:
+                <a href="https://innogeeks.in">Team Innogeeks</a></p>
+        </div>
+        <!-- End copyright  -->
+    
+        <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
+    
+        <!-- ALL JS FILES -->
+        <script src="{{ static('js/jquery-3.2.1.min.js') }}"></script>
+        <script src="{{ static('js/popper.min.js') }}"></script>
+        <script src="{{ static('js/bootstrap.min.js') }}"></script>
+        <!-- ALL PLUGINS -->
+        <script src="{{ static('js/jquery.superslides.min.js') }}"></script>
+        <script src="{{ static('js/bootstrap-select.js') }}"></script>
+        <script src="{{ static('js/inewsticker.js') }}"></script>
+        <script src="{{ static('js/bootsnav.js') }}"></script>
+        <script src="{{ static('js/images-loded.min.js') }}"></script>
+        <script src="{{ static('js/isotope.min.js') }}"></script>
+        <script src="{{ static('js/owl.carousel.min.js') }}"></script>
+        <script src="{{ static('js/baguetteBox.min.js') }}"></script>
+        <script src="{{ static('js/form-validator.min.js') }}"></script>
+        <script src="{{ static('js/contact-form-script.js') }}"></script>
+        <script src="{{ static('js/custom.js') }}"></script>
+    </body>
+    
+    </html>
+
+</body>
+</html>

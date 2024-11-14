@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignUp Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="flex justify-center items-center h-96 mt-24">
+      <form class="flex flex-col justify-center w-full rounded-md w-4/5 md:w-2/3 lg:w-1/3 justify-center items-center shadow-xl border-2 border-gray-100" method="post">
+        <h1 class="mb-9 text-2xl mt-5">SignUp Form</h1>
+        {% if msg != "" %}
+          <p class="mb-5 bg-red-200 p-3 rounded-md m-3">{{msg}}</p>
+        {% endif %}
+        {{form.username}} {{form.email}}<p style="font-size: x-small; padding: 2%; margin: 4% 4% 0% 4%;"> Password should be 8 characters long.<br> Which contains one special character, atleast one uppercaes character and should contain numerics</p> {{form.password1}} {{form.password2}} {{form.branch}} {{form.library_ID}} {{form.github}}
+      <input type="submit" value="Signup" class="bg-blue-500 rounded-md w-11/12 p-2 hover:bg-blue-950 hover:text-white my-8 "/>
+      <p class="mb-5">Already having an Account &nbsp;<a href="/user/login" class="text-indigo-500 underline underline-offset-2">Login</a></p>
+      </form>
+    </div>
+  </body>
+</html>

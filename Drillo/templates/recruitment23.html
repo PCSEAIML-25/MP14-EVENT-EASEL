@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Innogeeks Recruitment</title>
+  <link rel="shortcut icon" href="https://innogeeks24.s3.ap-south-1.amazonaws.com/Innogeeks_logo-removebg-preview.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html,
+    body {
+      width: 100vw;
+      overflow-x: hidden;
+    }
+
+    body {
+      background-color: black;
+    }
+
+    .formbold-form-select {
+      width: 100%;
+      background: #000;
+      outline: none;
+      resize: none;
+      font-size: 0.9em;
+      color: #afaeae;
+      font-weight: 400;
+      padding: 10px 10px 10px 10px;
+      outline: 0;
+      border: 1px solid rgba(105, 105, 105, 0.397);
+      border-radius: 10px;
+      margin: 0px 0 10px 0;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 20px;
+      position: relative;
+      min-width: 600px;
+    }
+
+    .title {
+      font-size: 20px;
+      color: #1AA7CA;
+      font-weight: 600;
+      letter-spacing: -1px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding-left: 20px;
+    }
+
+    .title::before,
+    .title::after {
+      position: absolute;
+      content: "";
+      height: 12px;
+      width: 12px;
+      border-radius: 50%;
+      left: 0px;
+      background-color: #2CD6FF;
+      z-index: 10000;
+    }
+
+    .title::before {
+      width: 14px;
+      height: 14px;
+      background-color: #1AA7CA;
+      z-index: 1000;
+
+    }
+
+    .title::after {
+      width: 14px;
+      height: 14px;
+      animation: pulse 1s linear infinite;
+      z-index: 1000;
+    }
+
+    .flex {
+      display: flex;
+      gap: 6px;
+    }
+
+    .form label {
+      position: relative;
+    }
+
+    .form label .input {
+      width: 100%;
+      padding: 10px 10px 20px 10px;
+      outline: 0;
+      border: 1px solid rgba(105, 105, 105, 0.397);
+      border-radius: 10px;
+    }
+
+    .form label .input+span {
+      position: absolute;
+      left: 10px;
+      top: 15px;
+      color: white;
+      font-size: 0.9em;
+      cursor: text;
+      transition: 0.3s ease;
+    }
+
+    .form label .input:placeholder-shown+span {
+      top: 15px;
+      font-size: 0.9em;
+      color: white;
+    }
+
+    .form label .input {
+      font-size: 0.8em;
+    }
+
+    .form label .input::placeholder {
+      color: #fff;
+    }
+
+    .form label .input:focus+span,
+    .form label .input:valid+span {
+      top: 30px;
+      font-size: 0.7em;
+      font-weight: 600;
+    }
+
+    /* For Chrome, Safari, Edge, and Opera */
+    input {
+      background-color: black;
+      color: white;
+    }
+
+    /* Hide arrows in Chrome, Safari, Edge */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Hide arrows in Firefox */
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+
+
+
+    /* @keyframes pulse {
+      from {
+        transform: scale(0.9);
+        opacity: 1;
+      }
+
+      to {
+        transform: scale(1.8);
+        opacity: 0;
+      }
+    } */
+
+    @media (max-width:600px) {
+      .form {
+        min-width: 90vw;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  {% for message in messages %}
+  <div class="alert absolute top-3 right-3">
+    <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 my-2 rounded relative" roles="alert">
+      <p class="text-center"><strong class="font-bold">Message</strong>
+        <span class="block sm:inline"> {{message}}</span>
+      </p>
+      <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+        <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20">
+          <title>Close</title>
+          <path
+            d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+        </svg>
+      </span>
+    </div>
+  </div>
+  {% endfor %}
+
+  <div class="w-screen flex justify-center item-center min-h-screen">
+    <div class="relative">
+      <form class="form bg-gray-100/40 relative pt-10 my-14" method="POST" action="/submitted/">
+        {{ csrf_input }}
+        <div class="h-28 w-full overflow-hidden md:my-5">
+          <img src="https://innogeeks24.s3.ap-south-1.amazonaws.com/inno+logo_20240921_172421_0000.png"
+            class="w-full h-full object-cover bg-center" alt="">
+        </div>
+        <label>
+          <input required="" name="Name" placeholder="Enter your name" type="text"
+            class="w-full bg-black text-gray-200 border-0 rounded-md p-2 mb-4 focus:black focus:outline-none focus:ring-1 focus:ring-[#1AA7CA] transition ease-in-out duration-150">
+        </label>
+
+        <label>
+          <input required="" name="Personal-Email" placeholder="Enter your personal-email" type="email"
+            class="w-full bg-black text-gray-200 border-0 rounded-md p-2 mb-4 focus:black focus:outline-none focus:ring-1 focus:ring-[#1AA7CA] transition ease-in-out duration-150">
+        </label>
+
+        <label>
+          <input required="" name="College-Email" placeholder="Enter your college-email" type="email"
+            class="w-full bg-black text-gray-200 border-0 rounded-md p-2 mb-4 focus:black focus:outline-none focus:ring-1 focus:ring-[#1AA7CA] transition ease-in-out duration-150">
+        </label>
+
+        <label>
+          <input required="" name="Library-ID" placeholder="Enter your Library-ID" type="text"
+            class="w-full bg-black text-gray-200 border-0 rounded-md p-2 mb-4 focus:black focus:outline-none focus:ring-1 focus:ring-[#1AA7CA] transition ease-in-out duration-150">
+        </label>
+
+        <label>
+          <input required="" name="Contact" placeholder="Enter you contact number" type="number"
+            class="w-full bg-black text-gray-200 border-0 rounded-md p-2 mb-4 focus:black focus:outline-none focus:ring-1 focus:ring-[#1AA7CA] transition ease-in-out duration-150">
+        </label>
+
+        <select class="formbold-form-select" name="Branch" id="branch" required>
+          <option value="" hidden>Select Branch</option>
+          <option value="CSE">CSE</option>
+          <option value="IT">IT</option>
+          <option value="CSIT">CSIT</option>
+          <option value="CS">CS</option>
+          <option value="CSE-AI">CSE-AI</option>
+          <option value="CSE-AIML">CSE-AIML</option>
+          <option value="ECE">ECE</option>
+          <option value="EEE">EEE</option>
+          <option value="ME">ME</option>
+          <option value="ELCE">ELCE</option>
+        </select>
+
+        <select class="formbold-form-select" name="Gender" id="branch" required>
+          <option value="" hidden>Select Gender</option>
+          <option value="Female">Female</option>
+          <option value="Male">Male</option>
+          <option value="Prefer not to say">Prefer not to say</option>
+        </select>
+
+        <select class="formbold-form-select" name="Payment" id="Payment" required>
+          <option value="" hidden>Select Payment Mode</option>
+          <option value="Online(UPI)">Online(UPI)</option>
+          <option value="Cash">Cash</option>
+        </select>
+
+        <select class="formbold-form-select" name="Residence" id="Residence" required>
+          <option value="" hidden>Residence</option>
+          <option value="Online(UPI)">Hosteller</option>
+          <option value="Cash">Day Scholar</option>
+        </select>
+
+        <select class="formbold-form-select" name="Desk" id="Desk" required>
+          <option value="" hidden>Select Desk</option>
+          <option value="E-Block">E-Block</option>
+          <option value="G-Block">G-Block</option>
+          <option value="H-Block">H-Block</option>
+          <option value="Cafeteria">Cafeteria</option>
+          <option value="Nishu's cafe">Nishu's cafe</option>
+          <option value="TBI">TBI</option>
+        </select>
+
+
+        <!-- <button class="submit">Submit</button> -->
+        <button type="submit"
+          class="group flex justify-center items-center gap-2 group-hover:before:duration-500 group-hover:after:duration-500 after:duration-500 hover:border-neutral-900 hover:scale-90 duration-500 hover:duration-500 relative bg-neutral-900 px-10 py-4 border text-left p-3 text-gray-50 text-base font-bold rounded-lg overflow-hidden after:absolute after:z-10 after:w-12 after:h-12 after:content[''] after:bg-sky-900 after:-left-8 after:top-8 after:rounded-full after:blur-lg hover:after:animate-pulse">
+          <img src="https://innogeeks24.s3.ap-south-1.amazonaws.com/Innogeeks_logo-removebg-preview.png" class="w-7"
+            alt="">
+          Join Innogeeks
+        </button>
+
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>
