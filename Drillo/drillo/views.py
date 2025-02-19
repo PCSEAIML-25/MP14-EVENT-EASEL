@@ -1,4 +1,4 @@
 from django.shortcuts import render
 
-
-#Add views in eventman or in user
+def landing(request):
+    return render(request, "homepage.html")

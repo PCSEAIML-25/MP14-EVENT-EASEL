@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Easel - Host and Register Events Easily</title>
+
+    <link rel="shortcut icon" class="fas fa-calendar-alt text-primary-600" type="image/x-icon">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: '#f0f9ff',
+                100: '#e0f2fe',
+                200: '#bae6fd',
+                300: '#7dd3fc',
+                400: '#38bdf8',
+                500: '#0ea5e9',
+                600: '#0284c7',
+                700: '#0369a1',
+                800: '#075985',
+                900: '#0c4a6e',
+              },
+              secondary: {
+                50: '#f5f3ff',
+                100: '#ede9fe',
+                200: '#ddd6fe',
+                300: '#c4b5fd',
+                400: '#a78bfa',
+                500: '#8b5cf6',
+                600: '#7c3aed',
+                700: '#6d28d9',
+                800: '#5b21b6',
+                900: '#4c1d95',
+              },
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+    
+    <!-- Animate.css for Animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+      
+      .hero-bg {
+        background: linear-gradient(135deg, rgba(14, 165, 233, 0.8), rgba(139, 92, 246, 0.8)),
+                    url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+        background-size: cover;
+        background-position: center;
+      }
+      
+      .feature-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="/" class="text-2xl font-bold text-primary-800 flex items-center space-x-2">
+                    <i class="fas fa-calendar-alt text-primary-600"></i>
+                    <img src="https://drillo.s3.ap-south-1.amazonaws.com/Screenshot+from+2025-02-19+00-48-18.png" alt="Event Easel Logo" class="h-8 w-auto">
+                </a>
+                <div class="flex items-center space-x-6">
+                    <a href="/user/login" class="text-gray-700 hover:text-primary-600 font-medium">Login</a>
+                    <a href="/user/signup" class="bg-primary-600 text-white px-6 py-2 rounded-full hover:bg-primary-700 transition duration-300">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg h-[80vh] flex items-center justify-center text-center text-white">
+        <div class="max-w-4xl px-4">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 animate__animated animate__fadeInDown">
+                Host and Register Events with Ease
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 animate__animated animate__fadeInUp">
+                Event Easel empowers coordinators to create stunning event pages and allows users to register seamlessly. Join us today!
+            </p>
+            <div class="space-x-4 animate__animated animate__fadeInUp">
+                <a href="/user/signup" class="bg-white text-primary-800 px-8 py-3 rounded-full text-lg font-medium hover:bg-gray-100 transition duration-300">
+                    Get Started
+                </a>
+                <a href="/" class="bg-transparent border border-white text-white px-8 py-3 rounded-full text-lg font-medium hover:bg-white hover:text-primary-800 transition duration-300">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl font-bold text-center mb-12 text-primary-800">Why Choose Event Easel?</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md text-center">
+                    <i class="fas fa-calendar-plus text-5xl text-primary-600 mb-6"></i>
+                    <h3 class="text-xl font-bold mb-4">Create Events Easily</h3>
+                    <p class="text-gray-700">Coordinators can create and host event pages in minutes with our intuitive tools.</p>
+                </div>
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md text-center">
+                    <i class="fas fa-users text-5xl text-primary-600 mb-6"></i>
+                    <h3 class="text-xl font-bold mb-4">Seamless Registration</h3>
+                    <p class="text-gray-700">Users can register for events with just a few clicks, making the process hassle-free.</p>
+                </div>
+                <div class="feature-card bg-white p-8 rounded-xl shadow-md text-center">
+                    <i class="fas fa-globe text-5xl text-primary-600 mb-6"></i>
+                    <h3 class="text-xl font-bold mb-4">Accessible Anywhere</h3>
+                    <p class="text-gray-700">Event pages are hosted online and accessible to anyone with an internet connection.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="bg-gray-100 py-20 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl font-bold text-center mb-12 text-primary-800">How It Works</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="bg-white p-8 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-user-plus text-3xl text-primary-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Sign Up</h3>
+                    <p class="text-gray-700">Coordinators sign up and create their account to start hosting events.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-white p-8 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-calendar-check text-3xl text-primary-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Create Events</h3>
+                    <p class="text-gray-700">Use our easy-to-use tools to create and customize event pages.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-white p-8 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-ticket-alt text-3xl text-primary-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Register & Attend</h3>
+                    <p class="text-gray-700">Users register for events and attend hassle-free.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="bg-primary-800 py-20 text-center text-white">
+        <div class="container mx-auto max-w-4xl px-4">
+            <h2 class="text-4xl font-bold mb-6">Ready to Get Started?</h2>
+            <p class="text-xl mb-8">Join Event Easel today and revolutionize the way you host and attend events.</p>
+            <a href="/user/signup" class="bg-white text-primary-800 px-10 py-4 rounded-full text-lg font-medium hover:bg-gray-100 transition duration-300">
+                Sign Up Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary-900 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-xl font-bold mb-4 md:mb-0"><img src="https://drillo.s3.ap-south-1.amazonaws.com/Screenshot+from+2025-02-19+00-48-18.png" alt="Event Easel Logo" class="h-8 w-auto"></div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-300 hover:text-white">About</a>
+                    <a href="#" class="text-gray-300 hover:text-white">Contact</a>
+                    <a href="#" class="text-gray-300 hover:text-white">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
