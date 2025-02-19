@@ -5,25 +5,50 @@ from .models import *
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 from user.models import User
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.contrib import messages
 
+
+@login_required
 @csrf_exempt
 def form_submission(request):
+    # Check if user is a coordinator
+    if not request.user.is_coordinator:
+        messages.error(request, "Only coordinators can create events.")
+        return HttpResponseRedirect('/')  # Redirect to home page
+    
     if request.method == 'POST':
         form = FormSubmissionForm(request.POST)
         if form.is_valid():
             username = request.user
-            user = User.objects.get(username = username)
-            events_created = user.events_created + \
-                " " + form.cleaned_data.get("name")
-            User.objects.filter(username = username).update(events_created=events_created)
+            user = User.objects.get(username=username)
+            
+            # Append new event to user's events_created
+            events_created = user.events_created
+            if events_created:
+                events_created += " " + form.cleaned_data.get("name")
+            else:
+                events_created = form.cleaned_data.get("name")
+                
+            User.objects.filter(username=username).update(events_created=events_created)
+            
             submission = form.save(commit=False)
+            submission.created_by = request.user  # Add this line if you have a created_by field
             submission.save()
             url = submission.url
+            
+            messages.success(request, f"Event '{form.cleaned_data.get('name')}' created successfully!")
             return redirect(reverse('page_preview', kwargs={'url': url}))
-
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
     else:
+        user = request.user
         form = FormSubmissionForm()
-    return render(request, 'create.html', {'form': form})
+        
+    return render(request, 'create.html', {'form': form, 'email': user.email})
 
 def page_preview(request,url):
     submission = FormSubmission.objects.get(url=url)

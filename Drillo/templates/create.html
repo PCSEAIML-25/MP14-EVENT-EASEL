@@ -4,21 +4,212 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Create New Event Page</title>
+    <title>Create New Event | Event Easel</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: '#f0f9ff',
+                100: '#e0f2fe',
+                200: '#bae6fd',
+                300: '#7dd3fc',
+                400: '#38bdf8',
+                500: '#0ea5e9',
+                600: '#0284c7',
+                700: '#0369a1',
+                800: '#075985',
+                900: '#0c4a6e',
+              },
+              secondary: {
+                50: '#f5f3ff',
+                100: '#ede9fe',
+                200: '#ddd6fe',
+                300: '#c4b5fd',
+                400: '#a78bfa',
+                500: '#8b5cf6',
+                600: '#7c3aed',
+                700: '#6d28d9',
+                800: '#5b21b6',
+                900: '#4c1d95',
+              },
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+            },
+          }
+        }
+      }
+    </script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    </style>
   </head>
-  <body>
-    <div>
-    <div class="flex justify-center items-center">
-      <form class="flex flex-col justify-center w-full rounded-md w-4/5 md:w-2/3 lg:w-1/3 justify-center items-center shadow-xl border-2 border-gray-100" method="post">
-        <h1 class="mb-9 text-2xl mt-5">Event Details Form</h1>
-        {{form.name}} {{form.email}} {{form.shortDesc}} {{form.message}}
-        <div>{{form.start_date.label}} &nbsp; : &nbsp; {{form.start_date}}</div>
-        <div>{{form.end_date.label}} &nbsp; : &nbsp; {{form.end_date}}</div>
-         {{form.url}}<p style="font-size: x-small;"> Should be same as Event Name</p> <br><br><p style="font-size: x-small;"> All the Image Links should not contain commas in them.<br> If more than one Image is present then it should be seperated by comma only</p>{{form.about}} {{form.crousel}} {{form.sponsors}}
-      <input type="submit" value="Create" class="bg-blue-500 rounded-md w-11/12 p-2 hover:bg-blue-950 hover:text-white my-8 "/>
-      </form>
-    </div>
+  <body class="bg-gray-50 text-gray-800 font-sans">
+    <div class="min-h-screen flex flex-col items-center justify-center py-10 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-gray-100">
+      <div class="max-w-md w-full space-y-8">
+        <div class="text-center">
+          <h1 class="text-3xl font-extrabold text-primary-800 mb-2">Event Easel</h1>
+          <p class="text-gray-500">Create a new event</p>
+        </div>
+        
+        <!-- Display Django messages -->
+        {% if messages %}
+          {% for message in messages %}
+            <div class="rounded-md {% if message.tags == 'error' %}bg-red-50{% elif message.tags == 'success' %}bg-green-50{% else %}bg-blue-50{% endif %} p-4 mb-6">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  {% if message.tags == 'error' %}
+                    <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                    </svg>
+                  {% elif message.tags == 'success' %}
+                    <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                  {% else %}
+                    <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z" clip-rule="evenodd" />
+                    </svg>
+                  {% endif %}
+                </div>
+                <div class="ml-3">
+                  <p class="text-sm {% if message.tags == 'error' %}text-red-700{% elif message.tags == 'success' %}text-green-700{% else %}text-blue-700{% endif %}">{{ message }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+        
+        <div class="bg-white shadow-lg rounded-lg p-8 border border-gray-200">
+          <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">Event Details Form</h2>
+          
+          <form class="space-y-6" method="post">
+            
+            <div class="space-y-4">
+              <div class="space-y-1">
+                <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-700">Event Name</label>
+                <div class="relative">
+                  {{ form.name }}
+                  {% if form.name.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.name.errors.0 }}</p>
+                  {% endif %}
+                </div>
+              </div>
+              
+              <div class="space-y-1">
+                <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700">Email</label>
+                <div class="relative">
+                  {{ form.email }}
+                  {% if form.email.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.email.errors.0 }}</p>
+                  {% endif %}
+                </div>
+              </div>
+              
+              <div class="space-y-1">
+                <label for="{{ form.shortDesc.id_for_label }}" class="block text-sm font-medium text-gray-700">Short Description</label>
+                <div class="relative">
+                  {{ form.shortDesc }}
+                  {% if form.shortDesc.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.shortDesc.errors.0 }}</p>
+                  {% endif %}
+                </div>
+              </div>
+              
+              <div class="space-y-1">
+                <label for="{{ form.message.id_for_label }}" class="block text-sm font-medium text-gray-700">Event Details</label>
+                <div class="relative">
+                  {{ form.message }}
+                  {% if form.message.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.message.errors.0 }}</p>
+                  {% endif %}
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-1">
+                  <label for="{{ form.start_date.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ form.start_date.label }}</label>
+                  <div class="relative">
+                    {{ form.start_date }}
+                    {% if form.start_date.errors %}
+                      <p class="mt-1 text-sm text-red-600">{{ form.start_date.errors.0 }}</p>
+                    {% endif %}
+                  </div>
+                </div>
+                
+                <div class="space-y-1">
+                  <label for="{{ form.end_date.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ form.end_date.label }}</label>
+                  <div class="relative">
+                    {{ form.end_date }}
+                    {% if form.end_date.errors %}
+                      <p class="mt-1 text-sm text-red-600">{{ form.end_date.errors.0 }}</p>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              
+              <div class="space-y-1">
+                <label for="{{ form.url.id_for_label }}" class="block text-sm font-medium text-gray-700">Event URL</label>
+                <div class="relative">
+                  {{ form.url }}
+                  <p class="mt-1 text-xs text-gray-500">URL should match the Event Name (without spaces)</p>
+                  {% if form.url.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.url.errors.0 }}</p>
+                  {% endif %}
+                </div>
+              </div>
+              
+              <div class="">
+                
+                <div class="space-y-3">
+                  <div class="space-y-1">
+                    <label for="{{ form.about.id_for_label }}" class="block text-sm font-medium text-gray-700">About Image</label>
+                    <div class="relative">
+                      {{ form.about }}
+                      {% if form.about.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.about.errors.0 }}</p>
+                      {% endif %}
+                    </div>
+                  </div>
+                  
+                  <div class="space-y-1">
+                    <label for="{{ form.crousel.id_for_label }}" class="block text-sm font-medium text-gray-700">Carousel Images</label>
+                    <div class="relative">
+                      {{ form.crousel }}
+                      {% if form.crousel.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.crousel.errors.0 }}</p>
+                      {% endif %}
+                    </div>
+                  </div>
+                  
+                  <div class="space-y-1">
+                    <label for="{{ form.sponsors.id_for_label }}" class="block text-sm font-medium text-gray-700">Sponsor Logos</label>
+                    <div class="relative">
+                      {{ form.sponsors }}
+                      {% if form.sponsors.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.sponsors.errors.0 }}</p>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition duration-150 ease-in-out">
+                Create Event
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <footer class="mt-8 text-center text-xs text-gray-500">
+        <p>&copy; 2025 Event Easel.</p>
+      </footer>
     </div>
   </body>
 </html>

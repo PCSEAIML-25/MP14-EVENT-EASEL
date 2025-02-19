@@ -1,217 +1,226 @@
 <!DOCTYPE html>
-    <html lang="en">
-    <!-- Basic -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{submission.name}} | Event Easel</title>
     
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Favicon -->
+    <!-- <link rel="shortcut icon" href="https://innogeeksbucket.s3.ap-south-1.amazonaws.com/img/innologobright.png" type="image/x-icon"> -->
     
-        <!-- Mobile Metas -->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: '#f0f9ff',
+                100: '#e0f2fe',
+                200: '#bae6fd',
+                300: '#7dd3fc',
+                400: '#38bdf8',
+                500: '#0ea5e9',
+                600: '#0284c7',
+                700: '#0369a1',
+                800: '#075985',
+                900: '#0c4a6e',
+              },
+              secondary: {
+                50: '#f5f3ff',
+                100: '#ede9fe',
+                200: '#ddd6fe',
+                300: '#c4b5fd',
+                400: '#a78bfa',
+                500: '#8b5cf6',
+                600: '#7c3aed',
+                700: '#6d28d9',
+                800: '#5b21b6',
+                900: '#4c1d95',
+              },
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    </style>
     
-        <!-- Site Metas -->
-        <title>{{submission.name}}</title>
-        <meta name="keywords" content="">
-        <meta name="description" content="">
-        <meta name="author" content="">
+    <!-- Swiper Carousel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     
-        <!-- Site Icons -->
-        <link rel="shortcut icon" href="https://innogeeksbucket.s3.ap-south-1.amazonaws.com/img/innologobright.png" type="image/x-icon">
-        <link rel="apple-touch-icon" href="https://innogeeksbucket.s3.ap-south-1.amazonaws.com/img/innologobright.png">
-    
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="{{ static('css/bootstrap.min.css') }}">
-      <!-- Site CSS -->
-        <link rel="stylesheet" href="{{ static('css/style.css') }}">
-      <!-- Responsive CSS -->
-        <link rel="stylesheet" href="{{ static('css/responsive.css') }}">
-      <!-- Custom CSS -->
-        <link rel="stylesheet" href="{{ static('css/custom.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Responsive Navbar -->
+    <nav x-data="{ open: false }" class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="/" class="text-2xl font-bold text-primary-800">Event Easel</a>
 
-       <style>
-            html{
-                scroll-behavior: smooth;
-            }
-            @media screen and (max-width: 800px) {
-                .aboutImage{
-                    display: none;
-                }
-            }
-            @media screen and (min-width: 800px) {
-                .aboutText{
-                    margin-top: 10%;
-                }
-            }
-            @media screen and (max-width: 500px) {
-                .importantInfo{
-                    flex-direction: column;
-                }
-            }
-
-        </style>
-    
-    
-    </head>
-    
-    <body>
-        <!-- Start Main Top -->
-        <header class="main-header">
-            <!-- Start Navigation -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
-                <div class="container">
-                    <!-- Start Header Navigation -->
-                    <div class="navbar-header">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fa fa-bars"></i>
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button @click="open = !open" class="text-gray-500 hover:text-gray-700">
+                        <i x-show="!open" class="fas fa-bars text-2xl"></i>
+                        <i x-show="open" class="fas fa-times text-2xl"></i>
                     </button>
-                        <a class="navbar-brand" href="https://www.innogeeks.in"><img src="https://innogeeksbucket.s3.ap-south-1.amazonaws.com/img/innologobright.png" class="logo" alt="" style="width: 250px;height: 80px;"></a>
-                    </div>
-                    <!-- End Header Navigation -->
-    
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="navbar-menu">
-                        <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                          {% if (not registered) %}
-                          <li class="nav-item">
-                            <a class="nav-link" href="/event/register/{{submission.name}}">Register</a>
-                          </li>
-                          {% endif %}
-                          {% if user.username %}
-                          <li class="nav-item"><a class="nav-link" href="/user/dashboard">User {{user.username}}</a></li>
-                          <li class="nav-item"><a class="nav-link" href="/user/logout">Logout</a></li>
-                          {% else %}
-                          <li class="nav-item"><a class="nav-link" href="/user/login">Login</a></li>
-                          {% endif %}
-                        </ul>
-                      </div> 
                 </div>
-            </nav>
-            <!-- End Navigation -->
-        </header>
-        <!-- End Main Top -->
-    
-        <!-- Start Top Search -->
-        <div class="top-search">
-            <div class="container">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                    <input type="text" class="form-control" placeholder="Search">
-                    <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
-                </div>
-            </div>
-        </div>
-        <!-- End Top Search -->
-   
-        <!-- Start Slider -->
-        <div id="slides-shop" class="cover-slides">
-            <ul class="slides-container">
-                {% for i in carousel %}
-                <li class="text-center">
-                    <img src={{i}} alt="">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h1 class="m-b-20"><strong>{{submission.name}} <br> by Innogeeks</strong></h1>
-                                <p class="m-b-40">{{submission.shortDesc}}</p>
-                                {% if registered %}
-                                <p>
-                                    <p class="btn hvr-hover">Already Registered</p>
-                                  {% else %}
-                                  <a class="btn hvr-hover" href="/event/register/{{submission.name}}"
-                                    >Register Now</a
-                                  >
-                                  </p>
-                                  {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-            <div class="slides-navigation">
-                <a href="#" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                <a href="#" class="prev"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-            </div>
-        </div>
-        <!-- End Slider -->
-    
-        <!-- Start Categories  -->
-        <div class="categories-shop" id="about">
-            <div class="container">
-                <center><h1 style="margin-bottom: 2%;"><strong>About {{submission.name}}</strong></h1></center> 
-                <div style="display: flex;">
-                    <p class="aboutText" style="overflow-wrap: break-word; word-break: break-word; text-align: justify; margin-right: 5%;">{{submission.message}}</p>
-                    <img class="aboutImage" src={{aboutImage}} alt="">
-                </div>
-            </div>
-        </div>
-        <!-- End Categories -->
-        
 
-        {% if sponsors %}
-        <div class="box-add-products">
-            <div class="container">
-                <center><h1 style="margin-bottom: 5%;"><strong>OUR SPONSORS</strong></h1></center> 
-                <center><div class="row" style="display: flex; justify-content: center; align-items: center;">
-                    {% for i in sponsors %}
-                        <div class="col-lg-4 col-md-4 col-sm-6">
-                                <img class="img-fluid" src={{i}} alt="sponsors" style="width: 50%; margin: 5%;"/>
-                        </div>
-                    {% endfor %}
-                </div></center>
-            </div>
-        </div>
-        {% endif %}
-    
-    
-        <!-- Start Blog  -->
-        <div class="latest-blog">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="title-all text-center">
-                            <h1>Important Information</h1>
-                            <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
-                                <div style="background-color: rgb(200, 201, 202); border-radius: 10px; padding: 3%; margin: 2%; width: 30%; height: 10%;"><center><h3>Registrations start</h3><br>{{submission.start_date}}</center></div>
-                                <div style="background-color: rgb(200, 201, 202); border-radius: 10px; padding: 3%; margin: 2%; width: 30%; height: 10%;"><center><h3>Registrations ends</h3><br>{{submission.end_date}}</center></div>
-                                <div style="background-color: rgb(200, 201, 202); border-radius: 10px; padding: 3%; margin: 2%; width: 30%; height: 10%;"><center><h3>Total Number of Registrations</h3><br>{{registration_count}}</center></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-4 items-center">
+                    {% if (not registered) %}
+                    <a href="/event/register/{{submission.name}}" 
+                       class="text-gray-700 hover:bg-primary-50 px-4 py-2 rounded-md transition duration-150 ease-in-out">Register</a>
+                    {% endif %}
                     
+                    {% if user.username %}
+                    <a href="/user/dashboard" 
+                       class="text-gray-700 hover:bg-primary-50 px-4 py-2 rounded-md transition duration-150 ease-in-out">
+                        {{user.username}}
+                    </a>
+                    <a href="/user/logout" 
+                       class="text-gray-700 hover:bg-red-50 px-4 py-2 rounded-md transition duration-150 ease-in-out">Logout</a>
+                    {% else %}
+                    <a href="/user/login" 
+                       class="text-gray-700 hover:bg-green-50 px-4 py-2 rounded-md transition duration-150 ease-in-out">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div x-show="open" class="md:hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    {% if (not registered) %}
+                    <a href="/event/register/{{submission.name}}" 
+                       class="text-gray-700 hover:bg-primary-50 block px-3 py-2 rounded-md">Register</a>
+                    {% endif %}
+                    
+                    {% if user.username %}
+                    <a href="/user/dashboard" 
+                       class="text-gray-700 hover:bg-primary-50 block px-3 py-2 rounded-md">
+                        {{user.username}}
+                    </a>
+                    <a href="/user/logout" 
+                       class="text-gray-700 hover:bg-primary-50 block px-3 py-2 rounded-md">Logout</a>
+                    {% else %}
+                    <a href="/user/login" 
+                       class="text-gray-700 hover:bg-primary-50 block px-3 py-2 rounded-md">Login</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
-        <!-- End Blog  -->
-    
-        <!-- Start copyright  -->
-        <div class="footer-copyright">
-            <p class="footer-company">All Rights Reserved. &copy; 2023 Made with ❤️ by:
-                <a href="https://innogeeks.in">Team Innogeeks</a></p>
-        </div>
-        <!-- End copyright  -->
-    
-        <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
-    
-        <!-- ALL JS FILES -->
-        <script src="{{ static('js/jquery-3.2.1.min.js') }}"></script>
-        <script src="{{ static('js/popper.min.js') }}"></script>
-        <script src="{{ static('js/bootstrap.min.js') }}"></script>
-        <!-- ALL PLUGINS -->
-        <script src="{{ static('js/jquery.superslides.min.js') }}"></script>
-        <script src="{{ static('js/bootstrap-select.js') }}"></script>
-        <script src="{{ static('js/inewsticker.js') }}"></script>
-        <script src="{{ static('js/bootsnav.js') }}"></script>
-        <script src="{{ static('js/images-loded.min.js') }}"></script>
-        <script src="{{ static('js/isotope.min.js') }}"></script>
-        <script src="{{ static('js/owl.carousel.min.js') }}"></script>
-        <script src="{{ static('js/baguetteBox.min.js') }}"></script>
-        <script src="{{ static('js/form-validator.min.js') }}"></script>
-        <script src="{{ static('js/contact-form-script.js') }}"></script>
-        <script src="{{ static('js/custom.js') }}"></script>
-    </body>
-    
-    </html>
+    </nav>
 
+    <!-- Hero Section -->
+    <div class="relative h-[600px] md:h-[700px] bg-cover bg-center" style="background-image: url('{{carousel[0]}}');">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                {{submission.name}}
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-2xl">
+                {{submission.shortDesc}}
+            </p>
+            {% if registered %}
+            <span class="bg-gray-500 text-white px-6 py-3 rounded-full">
+                Already Registered
+            </span>
+            {% else %}
+            <a href="/event/register/{{submission.name}}" 
+               class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-full text-lg transition duration-300">
+                Register Now
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section class="container mx-auto py-16 px-4">
+        <h2 class="text-3xl font-bold text-center mb-10 text-primary-800">About {{submission.name}}</h2>
+        <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="md:w-2/3">
+                <p class="text-gray-700 text-lg leading-relaxed text-justify">
+                    {{submission.message}}
+                </p>
+            </div>
+            <div class="md:w-1/3">
+                <img src="{{aboutImage}}" alt="Event Details" 
+                     class="rounded-lg shadow-lg w-full">
+            </div>
+        </div>
+    </section>
+
+    <!-- Important Information Section -->
+    <section class="container mx-auto py-16 px-4">
+        <h2 class="text-3xl font-bold text-center mb-10 text-primary-800">Important Information</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-white shadow-lg rounded-lg p-6 text-center">
+                <h3 class="text-xl font-semibold mb-4 text-primary-700">Registrations Start</h3>
+                <p class="text-lg text-gray-600">{{submission.start_date}}</p>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg p-6 text-center">
+                <h3 class="text-xl font-semibold mb-4 text-primary-700">Registrations End</h3>
+                <p class="text-lg text-gray-600">{{submission.end_date}}</p>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg p-6 text-center">
+                <h3 class="text-xl font-semibold mb-4 text-primary-700">Total Registrations</h3>
+                <p class="text-lg text-gray-600">{{registration_count}}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sponsors Section -->
+    {% if sponsors %}
+    <section class="bg-white py-16">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-10 text-primary-800">Our Sponsors</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 px-4">
+                {% for i in sponsors %}
+                <div class="flex items-center justify-center p-4">
+                    <img src="{{i}}" alt="Sponsor" 
+                         class="max-h-24 grayscale hover:grayscale-0 transition duration-300">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Call-to-Action Section -->
+    <section class="bg-primary-800 py-16">
+        <div class="container mx-auto text-center text-white px-4">
+            <h2 class="text-3xl font-bold mb-6">Don't Miss Out!</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">
+                Join us for an unforgettable experience. Register now and secure your spot!
+            </p>
+            {% if registered %}
+            <span class="bg-gray-500 text-white px-6 py-3 rounded-full">
+                Already Registered
+            </span>
+            {% else %}
+            <a href="/event/register/{{submission.name}}" 
+               class="bg-white text-primary-800 px-8 py-3 rounded-full text-lg font-semibold transition duration-300 hover:bg-gray-100">
+                Register Now
+            </a>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary-900 text-white py-6">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 Event Easel. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Alpine.js for Mobile Menu -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </body>
 </html>

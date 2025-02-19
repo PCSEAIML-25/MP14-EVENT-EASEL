@@ -15,3 +15,7 @@ EXPOSE 8000
 
 # Command to run the app using Gunicorn
 CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8000", "drillo.wsgi:application"]
+
+
+
+

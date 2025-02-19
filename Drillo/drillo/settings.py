@@ -1,33 +1,18 @@
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from storages.backends.s3boto3 import S3Boto3Storage
 load_dotenv()
-import jinja2 as jinja
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-21=+!uuy3k_c&osd)gi7k_r1dd%)h9iz6g_26e%pg9i&ba7=5q'
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = False
 
-ALLOWED_HOSTS = os.environ.get('HOSTS').split(' ')
-
-print(ALLOWED_HOSTS)
-
-
-# Application definition
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'import_export',
-    'unfold',
     'storages',
     'corsheaders',
     'django.contrib.admin',
@@ -36,15 +21,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # RestFramework
-    'rest_framework',
     'django.contrib.humanize',
     'jinja2',
     'dynamic_models',
+
     # CustomApps
     'eventman',
     'user',
-    'recruitment23',
 ]
 
 MIDDLEWARE = [
@@ -58,13 +41,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'https://recruitment.innogeeks.in'
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'https://recruitment.innogeeks.in'
+# ]
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://recruitment.innogeeks.in'
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://recruitment.innogeeks.in'
+# ]
 
 ROOT_URLCONF = 'drillo.urls'
 
@@ -116,13 +99,7 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
@@ -131,21 +108,18 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
-
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'user.User'
 
-
 AWS_ACCESS_KEY_ID = os.environ.get('AMAZON_ACCESS_KEY')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AMAZON_SECRET_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
+AWS_S3_REGION_NAME = 'ap-south-1'  # Change this to your region
+AWS_S3_ADDRESSING_STYLE = 'virtual'
 AWS_DEFAULT_ACL = None
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 AWS_S3_FILE_OVERWRITE = False
@@ -153,11 +127,27 @@ AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400'
 }
 
-PUBLIC_STATIC_LOCATION = 'static'
-STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_STATIC_LOCATION}/'
+class StaticStorage(S3Boto3Storage):
+    location = 'static'
+    default_acl = 'public-read'
+    file_overwrite = True
+    
+    def _clean_name(self, name):
+        return name.replace('\\', '/')
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+class MediaStorage(S3Boto3Storage):
+    location = 'media'
+    file_overwrite = False
+    default_acl = 'public-read'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+STATICFILES_STORAGE = f'{os.path.basename(BASE_DIR)}.settings.StaticStorage'
+DEFAULT_FILE_STORAGE = f'{os.path.basename(BASE_DIR)}.settings.MediaStorage'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

@@ -6,37 +6,46 @@ class LoginForm(forms.Form):
     username = forms.CharField(
         widget = forms.TextInput(
             attrs = {
-                "class": "border border-gray-200 w-11/12 mb-1 rounded-md p-1 hover:border-gray-500 hover:border-2", 'placeholder': "Enter username"
+                "class": "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-colors", 
+                "placeholder": "Enter username"
             }
         )
     )
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                "class": "border border-gray-200 w-11/12 mb-1 rounded-md p-1 hover:border-gray-500 hover:border-2", 'placeholder': "Enter password"
+                "class": "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-colors", 
+                "placeholder": "Enter password",
+                "id": "password"
             }
         )
     )
+
 
 class SignUpForm(UserCreationForm):
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "class": "border border-gray-200 w-11/12 mb-1 rounded-md p-1 hover:border-gray-500 hover:border-2", 'placeholder': "Enter username"
+                "class": "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-colors", 
+                "placeholder": "Enter username"
             }
         )
     )
     password1 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                "class": "border border-gray-200 w-11/12 mb-1 rounded-md p-1 hover:border-gray-500 hover:border-2", 'placeholder': "Enter Password"
+                "class": "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-colors", 
+                "placeholder": "Enter Password",
+                "id": "password1"
             }
         )
     )
     password2 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                "class": "border border-gray-200 w-11/12 mb-1 rounded-md p-1 hover:border-gray-500 hover:border-2", 'placeholder': "Confirm Password"
+                "class": "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-colors", 
+                "placeholder": "Confirm Password",
+                "id": "password2"
             }
         )
     )
@@ -44,7 +53,8 @@ class SignUpForm(UserCreationForm):
     email = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "class": "border border-gray-200 w-11/12 mb-1 rounded-md p-1 hover:border-gray-500 hover:border-2", 'placeholder': "Enter email"
+                "class": "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-colors", 
+                "placeholder": "Enter email"
             }
         )
     )
@@ -52,7 +62,8 @@ class SignUpForm(UserCreationForm):
     branch = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "class": "border border-gray-200 w-11/12 mb-1 rounded-md p-1 hover:border-gray-500 hover:border-2", 'placeholder': "Enter Branch"
+                "class": "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-colors", 
+                "placeholder": "Enter Branch"
             }
         )
     )
@@ -60,7 +71,8 @@ class SignUpForm(UserCreationForm):
     library_ID = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "class": "border border-gray-200 w-11/12 mb-1 rounded-md p-1 hover:border-gray-500 hover:border-2", 'placeholder': "Enter Library ID"
+                "class": "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-colors", 
+                "placeholder": "Enter Library ID"
             }
         )
     )
@@ -68,13 +80,16 @@ class SignUpForm(UserCreationForm):
     github = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "class": "border border-gray-200 w-11/12 mb-1 rounded-md p-1 hover:border-gray-500 hover:border-2", 'placeholder': "Enter Github Profile"
+                "class": "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-300 transition-colors", 
+                "placeholder": "Enter Github Profile"
             }
         )
     )
-
 
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2', 'branch', 'library_ID', 'github', 'is_coordinator')
     
+    def clean(self):
+        cleaned_data = super().clean()
+        return cleaned_data
