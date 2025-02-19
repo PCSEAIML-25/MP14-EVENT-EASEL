@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{submission.name}} | Event Easel</title>
     
-    <!-- Favicon -->
-    <!-- <link rel="shortcut icon" href="https://innogeeksbucket.s3.ap-south-1.amazonaws.com/img/innologobright.png" type="image/x-icon"> -->
+    <link rel="shortcut icon" href="https://drillo.s3.ap-south-1.amazonaws.com/Screenshot+from+2025-02-19+00-48-18.png" type="image/x-icon">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -26,19 +24,7 @@
                 700: '#0369a1',
                 800: '#075985',
                 900: '#0c4a6e',
-              },
-              secondary: {
-                50: '#f5f3ff',
-                100: '#ede9fe',
-                200: '#ddd6fe',
-                300: '#c4b5fd',
-                400: '#a78bfa',
-                500: '#8b5cf6',
-                600: '#7c3aed',
-                700: '#6d28d9',
-                800: '#5b21b6',
-                900: '#4c1d95',
-              },
+              }
             },
             fontFamily: {
               sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -47,145 +33,173 @@
         },
       };
     </script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+      
+      .hero-gradient {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
+      }
+      
+      .sponsor-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      
+      .sponsor-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+      
+      .custom-shape-divider-bottom-1 {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        line-height: 0;
+      }
+
+      .custom-shape-divider-bottom-1 svg {
+        position: relative;
+        display: block;
+        width: calc(100% + 1.3px);
+        height: 50px;
+      }
     </style>
-    
-    <!-- Swiper Carousel -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="bg-gray-50 font-sans">
-    <!-- Responsive Navbar -->
+    <!-- Navbar -->
     <nav x-data="{ open: false }" class="bg-white shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <!-- Logo -->
-                <a href="/" class="text-2xl font-bold text-primary-800">Event Easel</a>
+                <a href="/" class="flex items-center space-x-3">
+                    <img src="https://drillo.s3.ap-south-1.amazonaws.com/Screenshot+from+2025-02-19+00-48-18.png" alt="Event Easel Logo" class="h-12 w-auto">
+                </a>
 
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden">
-                    <button @click="open = !open" class="text-gray-500 hover:text-gray-700">
-                        <i x-show="!open" class="fas fa-bars text-2xl"></i>
-                        <i x-show="open" class="fas fa-times text-2xl"></i>
-                    </button>
-                </div>
-
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex space-x-4 items-center">
-                    {% if (not registered) %}
+                <div class="hidden md:flex items-center space-x-6">
+                    {% if not registered %}
                     <a href="/event/register/{{submission.name}}" 
-                       class="text-gray-700 hover:bg-primary-50 px-4 py-2 rounded-md transition duration-150 ease-in-out">Register</a>
+                       class="text-gray-700 hover:text-primary-600 font-medium transition duration-150">Register</a>
                     {% endif %}
                     
                     {% if user.username %}
-                    <a href="/user/dashboard" 
-                       class="text-gray-700 hover:bg-primary-50 px-4 py-2 rounded-md transition duration-150 ease-in-out">
-                        {{user.username}}
+                    <a href="/user/dashboard" class="text-gray-700 hover:text-primary-600 font-medium flex items-center space-x-2">
+                        <i class="fas fa-user-circle"></i>
+                        <span>{{user.username}}</span>
                     </a>
-                    <a href="/user/logout" 
-                       class="text-gray-700 hover:bg-red-50 px-4 py-2 rounded-md transition duration-150 ease-in-out">Logout</a>
+                    <a href="/user/logout" class="text-red-600 hover:text-red-700 font-medium">Logout</a>
                     {% else %}
-                    <a href="/user/login" 
-                       class="text-gray-700 hover:bg-green-50 px-4 py-2 rounded-md transition duration-150 ease-in-out">Login</a>
+                    <a href="/user/login" class="bg-primary-600 text-white px-6 py-2 rounded-full hover:bg-primary-700 transition duration-300">Login</a>
                     {% endif %}
                 </div>
+
+                <button @click="open = !open" class="md:hidden text-gray-500 hover:text-gray-700">
+                    <i x-show="!open" class="fas fa-bars text-2xl"></i>
+                    <i x-show="open" class="fas fa-times text-2xl"></i>
+                </button>
             </div>
 
-            <!-- Mobile Menu -->
-            <div x-show="open" class="md:hidden">
-                <div class="px-2 pt-2 pb-3 space-y-1">
-                    {% if (not registered) %}
-                    <a href="/event/register/{{submission.name}}" 
-                       class="text-gray-700 hover:bg-primary-50 block px-3 py-2 rounded-md">Register</a>
+            <div x-show="open" class="md:hidden pb-4">
+                <div class="space-y-2">
+                    {% if not registered %}
+                    <a href="/event/register/{{submission.name}}" class="block px-4 py-2 text-gray-700 hover:bg-primary-50 rounded-md">Register</a>
                     {% endif %}
                     
                     {% if user.username %}
-                    <a href="/user/dashboard" 
-                       class="text-gray-700 hover:bg-primary-50 block px-3 py-2 rounded-md">
-                        {{user.username}}
-                    </a>
-                    <a href="/user/logout" 
-                       class="text-gray-700 hover:bg-primary-50 block px-3 py-2 rounded-md">Logout</a>
+                    <a href="/user/dashboard" class="block px-4 py-2 text-gray-700 hover:bg-primary-50 rounded-md">{{user.username}}</a>
+                    <a href="/user/logout" class="block px-4 py-2 text-red-600 hover:bg-red-50 rounded-md">Logout</a>
                     {% else %}
-                    <a href="/user/login" 
-                       class="text-gray-700 hover:bg-primary-50 block px-3 py-2 rounded-md">Login</a>
+                    <a href="/user/login" class="block px-4 py-2 text-primary-600 hover:bg-primary-50 rounded-md">Login</a>
                     {% endif %}
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <div class="relative h-[600px] md:h-[700px] bg-cover bg-center" style="background-image: url('{{carousel[0]}}');">
-        <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4">
-                {{submission.name}}
-            </h1>
-            <p class="text-xl md:text-2xl mb-8 max-w-2xl">
-                {{submission.shortDesc}}
-            </p>
-            {% if registered %}
-            <span class="bg-gray-500 text-white px-6 py-3 rounded-full">
-                Already Registered
-            </span>
-            {% else %}
-            <a href="/event/register/{{submission.name}}" 
-               class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-full text-lg transition duration-300">
-                Register Now
-            </a>
-            {% endif %}
+    <!-- Hero Section with Swiper Carousel -->
+    <div class="swiper h-[80vh]">
+        <div class="swiper-wrapper">
+            {% for image in carousel %}
+            <div class="swiper-slide relative bg-cover bg-center" style="background-image: url('{{image}}');">
+                <div class="absolute inset-0 hero-gradient"></div>
+                <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
+                    <span class="text-primary-300 text-lg mb-4">Welcome to</span>
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+                        {{submission.name}}
+                    </h1>
+                    <p class="text-xl md:text-2xl mb-10 max-w-3xl text-gray-200">
+                        {{submission.shortDesc}}
+                    </p>
+                    {% if registered %}
+                    <div class="bg-white/20 backdrop-blur-md text-white px-8 py-3 rounded-full">
+                        You're Registered! 🎉
+                    </div>
+                    {% else %}
+                    <a href="/event/register/{{submission.name}}" 
+                       class="bg-primary-600 hover:bg-primary-700 text-white px-10 py-4 rounded-full text-lg font-medium transition duration-300 transform hover:scale-105">
+                        Register Now
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
         </div>
+        <!-- Swiper Navigation -->
+        <div class="swiper-button-next text-white"></div>
+        <div class="swiper-button-prev text-white"></div>
+        <!-- Swiper Pagination -->
+        <div class="swiper-pagination"></div>
     </div>
 
-    <!-- About Section -->
-    <section class="container mx-auto py-16 px-4">
-        <h2 class="text-3xl font-bold text-center mb-10 text-primary-800">About {{submission.name}}</h2>
-        <div class="flex flex-col md:flex-row items-center gap-8">
-            <div class="md:w-2/3">
-                <p class="text-gray-700 text-lg leading-relaxed text-justify">
-                    {{submission.message}}
-                </p>
-            </div>
-            <div class="md:w-1/3">
-                <img src="{{aboutImage}}" alt="Event Details" 
-                     class="rounded-lg shadow-lg w-full">
+    <!-- Event Details Section -->
+    <section class="py-20 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold mb-6 text-primary-800">About {{submission.name}}</h2>
+                    <p class="text-gray-700 text-lg leading-relaxed">
+                        {{submission.message}}
+                    </p>
+                    <div class="mt-8 grid grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <div class="text-primary-600 mb-2">
+                                <i class="fas fa-calendar-alt text-2xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-gray-800">Start Date</h3>
+                            <p class="text-gray-600">{{submission.start_date}}</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <div class="text-primary-600 mb-2">
+                                <i class="fas fa-hourglass-end text-2xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-gray-800">End Date</h3>
+                            <p class="text-gray-600">{{submission.end_date}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <img src="{{aboutImage}}" alt="Event Details" class="rounded-2xl shadow-2xl w-full transform hover:scale-105 transition duration-500">
+                    <div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg">
+                        <div class="text-2xl font-bold text-primary-600">{{registration_count}}</div>
+                        <div class="text-gray-600 text-sm">Registrations</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Important Information Section -->
-    <section class="container mx-auto py-16 px-4">
-        <h2 class="text-3xl font-bold text-center mb-10 text-primary-800">Important Information</h2>
-        <div class="grid md:grid-cols-3 gap-6">
-            <div class="bg-white shadow-lg rounded-lg p-6 text-center">
-                <h3 class="text-xl font-semibold mb-4 text-primary-700">Registrations Start</h3>
-                <p class="text-lg text-gray-600">{{submission.start_date}}</p>
-            </div>
-            <div class="bg-white shadow-lg rounded-lg p-6 text-center">
-                <h3 class="text-xl font-semibold mb-4 text-primary-700">Registrations End</h3>
-                <p class="text-lg text-gray-600">{{submission.end_date}}</p>
-            </div>
-            <div class="bg-white shadow-lg rounded-lg p-6 text-center">
-                <h3 class="text-xl font-semibold mb-4 text-primary-700">Total Registrations</h3>
-                <p class="text-lg text-gray-600">{{registration_count}}</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sponsors Section -->
     {% if sponsors %}
-    <section class="bg-white py-16">
-        <div class="container mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-10 text-primary-800">Our Sponsors</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 px-4">
+    <!-- Sponsors Section -->
+    <section class="bg-white py-20">
+        <div class="container mx-auto max-w-6xl px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-primary-800">Our Sponsors</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
                 {% for i in sponsors %}
-                <div class="flex items-center justify-center p-4">
-                    <img src="{{i}}" alt="Sponsor" 
-                         class="max-h-24 grayscale hover:grayscale-0 transition duration-300">
+                <div class="sponsor-card bg-white rounded-xl shadow-md p-6 flex items-center justify-center hover:shadow-lg">
+                    <img src="{{i}}" alt="Sponsor" class="max-h-24 filter grayscale hover:grayscale-0 transition duration-300">
                 </div>
                 {% endfor %}
             </div>
@@ -193,20 +207,23 @@
     </section>
     {% endif %}
 
-    <!-- Call-to-Action Section -->
-    <section class="bg-primary-800 py-16">
-        <div class="container mx-auto text-center text-white px-4">
-            <h2 class="text-3xl font-bold mb-6">Don't Miss Out!</h2>
-            <p class="text-xl mb-8 max-w-2xl mx-auto">
-                Join us for an unforgettable experience. Register now and secure your spot!
+    <!-- CTA Section -->
+    <section class="relative py-20 bg-primary-800 overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary-400 via-primary-500 to-primary-800"></div>
+        </div>
+        <div class="relative container mx-auto text-center px-4">
+            <h2 class="text-4xl font-bold text-white mb-6">Ready to Join?</h2>
+            <p class="text-xl text-primary-100 mb-10 max-w-2xl mx-auto">
+                Don't miss this opportunity to be part of something extraordinary!
             </p>
             {% if registered %}
-            <span class="bg-gray-500 text-white px-6 py-3 rounded-full">
-                Already Registered
-            </span>
+            <div class="inline-block bg-white/20 backdrop-blur-md text-white px-8 py-3 rounded-full">
+                You're Already Part of This Journey! 🎉
+            </div>
             {% else %}
             <a href="/event/register/{{submission.name}}" 
-               class="bg-white text-primary-800 px-8 py-3 rounded-full text-lg font-semibold transition duration-300 hover:bg-gray-100">
+               class="inline-block bg-white text-primary-800 px-10 py-4 rounded-full text-lg font-medium hover:bg-primary-50 transition duration-300 transform hover:scale-105">
                 Register Now
             </a>
             {% endif %}
@@ -214,13 +231,37 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-primary-900 text-white py-6">
-        <div class="container mx-auto text-center">
-            <p>&copy; 2025 Event Easel. All rights reserved.</p>
+    <footer class="bg-primary-900 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-3 mb-4 md:mb-0">
+                    <img src="https://drillo.s3.ap-south-1.amazonaws.com/Screenshot+from+2025-02-19+00-48-18.png" alt="Event Easel Logo" class="h-8 w-auto">
+                </div>
+                <p class="text-primary-200">&copy; 2025 Event Easel. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
-    <!-- Alpine.js for Mobile Menu -->
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        const swiper = new Swiper('.swiper', {
+            loop: true,
+            effect: 'fade',
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </body>
 </html>

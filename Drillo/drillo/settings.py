@@ -7,7 +7,7 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -41,13 +41,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# CORS_ALLOWED_ORIGINS = [
-#     'https://recruitment.innogeeks.in'
-# ]
+CORS_ALLOWED_ORIGINS = [
+    'http://13.126.204.46'
+]
 
-# CSRF_TRUSTED_ORIGINS = [
-#     'https://recruitment.innogeeks.in'
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    'http://13.126.204.46'
+]
 
 ROOT_URLCONF = 'drillo.urls'
 

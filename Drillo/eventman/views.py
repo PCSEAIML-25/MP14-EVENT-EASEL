@@ -131,7 +131,7 @@ def event_details_page(request, event):
         user = User.objects.get(username=request.user)
         coordinator = user.is_coordinator
         if(coordinator):
-            return render(request, 'event_details.html', {'event_details': event_details(event), 'range': range(len(event_details(event)['user'])), 'length': len(event_details(event)['user'])})
+            return render(request, 'event_details.html', {'event_details': event_details(event), 'range': range(len(event_details(event)['user'])), 'length': len(event_details(event)['user']), 'user': user})
         else:
             return redirect('dashboard')
     else:
