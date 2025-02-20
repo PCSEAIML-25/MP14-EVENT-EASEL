@@ -20,7 +20,7 @@ jobs:
     #   run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       
     - name: Build the Docker image
-      run: docker build -t major_project .
+      run: docker build -t major_project ./Drillo
 
     - name: tag image to the Docker image
       run: docker tag major_project daostudio/major_project:latest
