@@ -23,7 +23,7 @@ jobs:
       run: docker build -t major_project ./Drillo
 
     - name: tag image to the Docker image
-      run: docker tag major_project daostudio/major_project:latest
+      run: docker tag major_project 1010varun/major_project:latest
 
     - name: Push to Docker Hub
-      run: docker push daostudio/major_project:latest
+      run: docker push 1010varun/major_project:latest
