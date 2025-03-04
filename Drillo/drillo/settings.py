@@ -42,11 +42,11 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://13.126.204.46'
+    'http://65.0.125.171'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://13.126.204.46'
+    'http://65.0.125.171'
 ]
 
 ROOT_URLCONF = 'drillo.urls'
