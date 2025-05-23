@@ -42,11 +42,11 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://65.0.125.171'
+    f'http://{os.environ.get('DB_HOST')}'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://65.0.125.171'
+    f'http://{os.environ.get('DB_HOST')}'
 ]
 
 ROOT_URLCONF = 'drillo.urls'
@@ -118,36 +118,18 @@ AUTH_USER_MODEL = 'user.User'
 AWS_ACCESS_KEY_ID = os.environ.get('AMAZON_ACCESS_KEY')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AMAZON_SECRET_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
-AWS_S3_REGION_NAME = 'ap-south-1'  # Change this to your region
-AWS_S3_ADDRESSING_STYLE = 'virtual'
-AWS_DEFAULT_ACL = None
+AWS_S3_REGION_NAME = os.environ.get('S3_BUCKET_REGION')
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-AWS_S3_FILE_OVERWRITE = False
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400'
-}
+AWS_S3_URL_PROTOCOL = 'https'
+AWS_S3_USE_SSL = True
+AWS_S3_VERIFY = True
 
-class StaticStorage(S3Boto3Storage):
-    location = 'static'
-    default_acl = 'public-read'
-    file_overwrite = True
-    
-    def _clean_name(self, name):
-        return name.replace('\\', '/')
+STATIC_URL = f'{AWS_S3_URL_PROTOCOL}://{AWS_S3_CUSTOM_DOMAIN}/staticfiles/'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-class MediaStorage(S3Boto3Storage):
-    location = 'media'
-    file_overwrite = False
-    default_acl = 'public-read'
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
-STATICFILES_STORAGE = f'{os.path.basename(BASE_DIR)}.settings.StaticStorage'
-DEFAULT_FILE_STORAGE = f'{os.path.basename(BASE_DIR)}.settings.MediaStorage'
+MEDIA_URL = f'{AWS_S3_URL_PROTOCOL}://{AWS_S3_CUSTOM_DOMAIN}/media/'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
